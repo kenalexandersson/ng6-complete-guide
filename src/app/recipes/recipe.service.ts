@@ -1,5 +1,5 @@
 import {Recipe} from './recipe.model';
-import {EventEmitter, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Ingredient} from '../shared/ingredient.model';
 import {ShoppingListService} from '../shopping-list/shopping-list.service';
 import {ActivatedRoute} from '@angular/router';
@@ -8,7 +8,6 @@ import {ActivatedRoute} from '@angular/router';
   providedIn: 'root'
 })
 export class RecipeService {
-  private recipeSelected = new EventEmitter<Recipe>();
 
   constructor(private shoppingListService: ShoppingListService, private route: ActivatedRoute) {
   }
@@ -53,14 +52,6 @@ export class RecipeService {
     // );
 
     return this.recipes[index];
-  }
-
-  selectedRecipe(recipe: Recipe) {
-    this.recipeSelected.emit(recipe);
-  }
-
-  getRecipeSelected() {
-    return this.recipeSelected;
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
