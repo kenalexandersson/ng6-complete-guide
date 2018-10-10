@@ -2,6 +2,7 @@ import {Recipe} from './recipe.model';
 import {EventEmitter, Injectable} from '@angular/core';
 import {Ingredient} from '../shared/ingredient.model';
 import {ShoppingListService} from '../shopping-list/shopping-list.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,12 @@ import {ShoppingListService} from '../shopping-list/shopping-list.service';
 export class RecipeService {
   private recipeSelected = new EventEmitter<Recipe>();
 
-  constructor(private shoppingListService: ShoppingListService) {
+  constructor(private shoppingListService: ShoppingListService, private route: ActivatedRoute) {
   }
 
   private recipes: Recipe[] = [
     new Recipe(
+      1,
       'Tasty Schnitzel',
       'A super tasty schnitzel',
       'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
@@ -23,6 +25,7 @@ export class RecipeService {
       ]
     ),
     new Recipe(
+      2,
       'Disgusting burger',
       'Jeez',
       'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
@@ -40,6 +43,16 @@ export class RecipeService {
     // This returns a copy, not a reference so that the recipes array doesn't get
     // accidentally modified outside of this class
     return this.recipes.slice();
+  }
+
+  getRecipe(index: number) {
+    // const recipe = this.recipes.find(
+    //   (r) => {
+    //     return r.id === id;
+    //   }
+    // );
+
+    return this.recipes[index];
   }
 
   selectedRecipe(recipe: Recipe) {
