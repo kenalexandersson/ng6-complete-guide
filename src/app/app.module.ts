@@ -17,6 +17,8 @@ import {RecipeHomeComponent} from './recipes/recipe-home/recipe-home.component';
 import {RecipeEditComponent} from './recipes/recipe-edit/recipe-edit.component';
 import {RecipeService} from './recipes/recipe.service';
 import {RecipeFilterPipe} from './recipes/recipe-list/recipe-filter.pipe';
+import {DataStorageService} from './shared/data-storage.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -37,9 +39,10 @@ import {RecipeFilterPipe} from './recipes/recipe-list/recipe-filter.pipe';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [ShoppingListService, RecipeService],
+  providers: [ShoppingListService, RecipeService, DataStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

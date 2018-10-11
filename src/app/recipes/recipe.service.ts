@@ -40,6 +40,11 @@ export class RecipeService {
     )
   ];
 
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesHasChanged();
+  }
+
   getRecipes() {
     // This returns a copy, not a reference so that the recipes array doesn't get
     // accidentally modified outside of this class
