@@ -3,11 +3,13 @@ import {Injectable} from '@angular/core';
 import {Ingredient} from '../shared/ingredient.model';
 import {ShoppingListService} from '../shopping-list/shopping-list.service';
 import {ActivatedRoute} from '@angular/router';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
+  recipesChanged = new Subject<Recipe[]>();
 
   constructor(private shoppingListService: ShoppingListService, private route: ActivatedRoute) {
   }
@@ -17,7 +19,7 @@ export class RecipeService {
       1,
       'Tasty Schnitzel',
       'A super tasty schnitzel',
-      'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
+      'https://picsum.photos/800/450/?image=999',
       [
         new Ingredient('Meat', 1),
         new Ingredient('French Fries', 20)
@@ -27,7 +29,7 @@ export class RecipeService {
       2,
       'Disgusting burger',
       'Jeez',
-      'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
+      'https://picsum.photos/800/450/?image=223',
       [
         new Ingredient('Meat', 1),
         new Ingredient('Sad looking buns', 2),
@@ -56,5 +58,24 @@ export class RecipeService {
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.shoppingListService.addIngredients(ingredients);
+  }
+
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesHasChanged();
+  }
+
+  updateRecipe(index: number, recipe: Recipe) {
+    this.recipes[index] = recipe;
+    this.recipesHasChanged();
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesHasChanged();
+  }
+
+  private recipesHasChanged() {
+    this.recipesChanged.next(this.recipes.slice());
   }
 }

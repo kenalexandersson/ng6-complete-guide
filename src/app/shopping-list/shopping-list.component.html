@@ -2,10 +2,18 @@
   <div class="col-xs-10">
     <app-shopping-edit></app-shopping-edit>
     <hr>
-    <ul class="list-group">
-      <a class="list-group-item"
-         style="cursor: pointer"
-         *ngFor="let ingredient of ingredients">{{ ingredient.name }} ({{ ingredient.amount}})</a>
-    </ul>
+    <div class="list-group">
+      <div class="list-group-item" *ngFor="let ingredient of ingredients; let i = index">
+        <div (click)="onEditItem(i)" style="cursor: pointer">
+          <div style="float: left">
+            {{ ingredient.name }} ({{ ingredient.amount}})
+          </div>
+          <div style="float: right">
+            <button class="btn btn-danger" type="button" (click)="onDeleteItem(i)" [disabled]="editMode">Delete</button>
+          </div>
+          <div style="clear: both;"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
