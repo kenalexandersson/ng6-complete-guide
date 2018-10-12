@@ -12,8 +12,7 @@ export class RecipeFilterPipe implements PipeTransform {
       return value;
     }
 
-    return value.filter(
-      (recipe: Recipe) => {
+    return value.filter((recipe: Recipe) => {
         return recipe.name.toLowerCase().includes(filterString.toLowerCase());
       }
     );
