@@ -1,7 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Ingredient} from '../shared/ingredient.model';
-import {ShoppingListService} from './shopping-list.service';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
+import {Store} from '@ngrx/store';
+import * as ShoppingListActions from './store/shopping-list.actions';
+import * as fromShoppingList from './store/shopping-list.reducers';
 
 @Component({
   selector: 'app-shopping-list',
@@ -10,39 +12,34 @@ import {Subscription} from 'rxjs';
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
 
-  ingredients: Ingredient[];
-  private ingredientsChangedSubscription: Subscription;
+  shoppingListState: Observable<{ingredients: Ingredient[]}>;
+
   private stoppedEditing: Subscription;
   editMode = false;
 
-  constructor(private shoppingListService: ShoppingListService) { }
+  constructor(private store: Store<fromShoppingList.AppState>) {
+  }
 
   ngOnInit() {
-    this.ingredients = this.shoppingListService.getIngredients();
-    this.ingredientsChangedSubscription = this.shoppingListService.ingredientsChanged.subscribe(
-      (ingredients: Ingredient[]) => {
-        this.ingredients = ingredients;
-      }
-    );
+    this.shoppingListState = this.store.select('shoppingList');
 
-    this.stoppedEditing = this.shoppingListService.stoppedEditing.subscribe(
-      (index: number) => {
-        this.editMode = false;
-      }
-    );
+    // this.stoppedEditing = this.shoppingListService.stoppedEditing.subscribe(
+    //   () => {
+    //     this.editMode = false;
+    //   }
+    // );
   }
 
   ngOnDestroy(): void {
-    this.ingredientsChangedSubscription.unsubscribe();
-    this.stoppedEditing.unsubscribe();
+    // this.stoppedEditing.unsubscribe();
   }
 
   onEditItem(index: number) {
-    this.shoppingListService.startedEditing.next(index);
+    this.store.dispatch(new ShoppingListActions.StartEdit(index));
     this.editMode = true;
   }
 
   onDeleteItem(index: number) {
-    this.shoppingListService.deleteIngredient(index);
+    this.store.dispatch(new ShoppingListActions.DeleteIngredient(index));
   }
 }

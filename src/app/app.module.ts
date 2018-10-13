@@ -11,7 +11,6 @@ import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {ShoppingEditComponent} from './shopping-list/shopping-edit/shopping-edit.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DropdownDirective} from './shared/dropdown-directive';
-import {ShoppingListService} from './shopping-list/shopping-list.service';
 import {AppRoutingModule} from './app-routing.module';
 import {RecipeHomeComponent} from './recipes/recipe-home/recipe-home.component';
 import {RecipeEditComponent} from './recipes/recipe-edit/recipe-edit.component';
@@ -19,6 +18,8 @@ import {RecipeService} from './recipes/recipe.service';
 import {RecipeFilterPipe} from './recipes/recipe-list/recipe-filter.pipe';
 import {DataStorageService} from './shared/data-storage.service';
 import {HttpClientModule} from '@angular/common/http';
+import {StoreModule} from '@ngrx/store';
+import {shoppingListReducer} from './shopping-list/store/shopping-list.reducers';
 
 @NgModule({
   declarations: [
@@ -40,9 +41,10 @@ import {HttpClientModule} from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({shoppingList: shoppingListReducer})
   ],
-  providers: [ShoppingListService, RecipeService, DataStorageService],
+  providers: [RecipeService, DataStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

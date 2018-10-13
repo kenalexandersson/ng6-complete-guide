@@ -32,7 +32,7 @@ export class RecipeEditComponent implements OnInit {
     //   this.getValue('name'),
     //   this.getValue('imagePath'),
     //   this.getValue('description'),
-    //   this.getValue('ingredients'));
+    //   this.getValue('shoppingListState'));
 
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
@@ -48,7 +48,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   getIngredientsCtrlArray() {
-    return this.recipeForm.get('ingredients') as FormArray;
+    return this.recipeForm.get('shoppingListState') as FormArray;
   }
 
   onAddIngredient() {
