@@ -23,15 +23,19 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.shoppingListState = this.store.select('shoppingList');
 
-    // this.stoppedEditing = this.shoppingListService.stoppedEditing.subscribe(
-    //   () => {
-    //     this.editMode = false;
-    //   }
-    // );
+    this.store.subscribe();
+    this.stoppedEditing = this.store.select('shoppingList').subscribe(
+      (data) => {
+        console.log('stopped editing ' + data.editedIngredientIndex)
+        if (data.editedIngredientIndex < 0) {
+          this.editMode = false;
+        }
+      }
+    );
   }
 
   ngOnDestroy(): void {
-    // this.stoppedEditing.unsubscribe();
+    this.stoppedEditing.unsubscribe();
   }
 
   onEditItem(index: number) {
@@ -40,6 +44,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   onDeleteItem(index: number) {
+    console.log('Deleting ' + index);
     this.store.dispatch(new ShoppingListActions.DeleteIngredient(index));
   }
 }
